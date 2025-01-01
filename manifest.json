@@ -3,10 +3,7 @@
     "name": "Shopee Seller Auto",
     "version": "1.0",
     "description": "Automate duplicated actions in Shopee Seller",
-    "permissions": [
-        "contextMenus",
-        "scripting"
-    ],
+    "permissions": ["scripting", "activeTab"],
     "background": {
         "service_worker": "background.js"
     },
@@ -14,6 +11,7 @@
         "<all_urls>"
     ],
     "action": {
-        "default_popup": "popup.html"
+        "default_popup": "popup.html",
+        "default_title": "Shopee Auto"
     }
 }
