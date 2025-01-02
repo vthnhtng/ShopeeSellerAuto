@@ -1,5 +1,6 @@
 const selectProductButton = document.getElementById("select-product-button");
 const deactivateProductButton = document.getElementById("deactivate-product-button");
+const setPriceButton = document.getElementById("set-price-button");
 
 selectProductButton.addEventListener("click", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -50,8 +51,6 @@ deactivateProductButton.addEventListener("click", () => {
         // Get the value of the input field
         const quantityThreshold = document.querySelector('#quantity-threshold').value;
 
-        console.log("Quantity Threshold:", quantityThreshold);
-        
         chrome.scripting.executeScript({
             target: { tabId: activeTab },
             files: ["deactivate-products.js"]
@@ -64,7 +63,40 @@ deactivateProductButton.addEventListener("click", () => {
                 },
                 (response) => {
                     if (response) {
-                        console.log("Response received:", response);
+                        if (!response.success) {
+                            console.error(response.error);
+                        }
+                    } else {
+                        console.error("No response received or an error occurred.");
+                    }
+                }
+            );
+        });
+    });
+});
+
+setPriceButton.addEventListener("click", () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0].id;
+
+        // Get the value of the input field
+        const productPrice = document.querySelector('#product-price').value;
+
+        chrome.scripting.executeScript({
+            target: { tabId: activeTab },
+            files: ["set-product-prices.js"]
+        }, () => {
+            chrome.tabs.sendMessage(
+                activeTab,
+                {
+                    action: "setProductPrices",
+                    productPrice: productPrice
+                },
+                (response) => {
+                    if (response) {
+                        if (!response.success) {
+                            console.error(response.error);
+                        }
                     } else {
                         console.error("No response received or an error occurred.");
                     }
