@@ -5,6 +5,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const lastProductInfo = allRows[allRows.length - 1].querySelectorAll("td")[1];
 
         if (lastProductInfo) {
+            lastProductInfo.scrollIntoView();
+
             sendResponse({
                 success: true,
                 productInfo: {

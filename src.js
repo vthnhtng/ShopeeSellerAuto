@@ -1,4 +1,5 @@
 const selectProductButton = document.getElementById("select-product-button");
+const deactivateProductButton = document.getElementById("deactivate-product-button");
 
 selectProductButton.addEventListener("click", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -6,7 +7,7 @@ selectProductButton.addEventListener("click", () => {
 
         chrome.scripting.executeScript({
             target: { tabId: activeTab },
-            files: ["content.js"]
+            files: ["select-product.js"]
         }, () => {
             chrome.tabs.sendMessage(activeTab, { action: "getProductInfo" }, (response) => {
                 const productInfo = document.querySelector(".selected-product .product-info");
@@ -38,6 +39,37 @@ selectProductButton.addEventListener("click", () => {
                     productInfo.innerHTML = "Unable to fetch product details";
                 }
             });
+        });
+    });
+});
+
+deactivateProductButton.addEventListener("click", () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0].id;
+
+        // Get the value of the input field
+        const quantityThreshold = document.querySelector('#quantity-threshold').value;
+
+        console.log("Quantity Threshold:", quantityThreshold);
+        
+        chrome.scripting.executeScript({
+            target: { tabId: activeTab },
+            files: ["deactivate-products.js"]
+        }, () => {
+            chrome.tabs.sendMessage(
+                activeTab,
+                {
+                    action: "deactivateProducts",
+                    quantityThreshold: quantityThreshold
+                },
+                (response) => {
+                    if (response) {
+                        console.log("Response received:", response);
+                    } else {
+                        console.error("No response received or an error occurred.");
+                    }
+                }
+            );
         });
     });
 });
