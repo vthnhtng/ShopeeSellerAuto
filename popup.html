@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopee Auto</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <h1>Shopee Auto</h1>
+        <div class="container">
+            <div class="row selected-product">
+                <button id="select-product-button">Chọn sản phẩm</button>
+                <div class="product-info">
+
+                </div>
+            </div>
+
+            <div class="row deactivate">
+                <div class="quantity-threshold">
+                    <label for="quantity-threshold">Giới hạn tồn</label>
+                    <input type="number" id="quantity-threshold" name="quantity-threshold" value="4">
+                </div>
+                <button id="deactivate-product-button">Tắt kích hoạt</button>
+            </div>
+
+            <div class="row set-price">
+                <div class="product-price">
+                    <label for="product-price">Giá</label>
+                    <input type="number" id="product-price" name="product-price">
+                </div>
+                <button id="set-price-button">Set giá</button>
+            </div>
+
+            <div class="row set-sale-number">
+                <button id="set-sale-number-button">Set số lượng sale tự động</button>
+            </div>
+        </div>
+    </main>
+    <script src="src.js"></script>
+</body>
+
+</html>
